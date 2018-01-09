@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>TimingScope</id>
+    <version>$version$</version>
+    <title>TimingScope</title>
+    <authors>Dmitry Pavliv</authors>
+    <owners>Dmitry Pavliv</owners>
+    <projectUrl>https://github.com/dmitryPavliv/TimingScope</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library to log timing activities across multiple threads</description>
+    <summary>Library to log timing activities across multiple threads</summary>
+    <copyright>Copyright © DmitryPavliv</copyright>
+    <tags>TimingScope</tags>
+  </metadata>
+  <files>
+    <file src="C:\projects\TimingScope\TimingScope\TimingScope\bin\Release\TimingScope.dll" target="lib/net45"/>
+  </files>
+</package>
