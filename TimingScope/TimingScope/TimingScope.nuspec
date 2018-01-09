@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/dmitryPavliv/TimingScope</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library to log timing activities across multiple threads</description>
-    <summary>Library to log timing activities across multiple threads</summary>
+    <summary>Handy library to log timing activities across multiple threads</summary>
     <copyright>Copyright © DmitryPavliv</copyright>
     <tags>TimingScope</tags>
   </metadata>
