@@ -10,6 +10,18 @@ namespace TimingScope.Tests
     public class Tests
     {
         [TestMethod]
+        public async Task WorksForDifferentThreadsAsync()
+        {
+            await Task.WhenAll(
+                Task.Run(() => DoSomeWork("Abc")),
+                Task.Run(() => DoSomeWork("Bcd")),
+                Task.Run(() => DoSomeWork("Cde")),
+                Task.Run(() => DoSomeWork("Def")),
+                Task.Run(() => DoSomeWork("Efg"))
+            );
+        }
+
+        [TestMethod]
         public async Task End2EndTestAsync()
         {
             using (var scope = TimingScope.Create())
@@ -62,6 +74,28 @@ namespace TimingScope.Tests
             start = DateTime.Now;
             await Task.Delay(300);
             TimingScope.GetCurrent().Log("Third", start, DateTime.Now, 2);
+        }
+
+        private void DoSomeWork(string key)
+        {
+            using (var scope = TimingScope.Create())
+            {
+                var start = DateTime.Now;
+                int n = 10_000;
+
+                Parallel.For(0, n, (i) =>
+                {
+                    TimingScope.GetCurrent().Log(key + "_" + i, start, DateTime.Now);
+                });
+
+                var logEntries = scope.GetLogEntries().ToDictionary(x => x.Name);
+                Assert.AreEqual(n, logEntries.Count);
+
+                for (int i = 0; i < n; i++)
+                {
+                    Assert.IsTrue(logEntries.ContainsKey(key + "_" + i));
+                }
+            }
         }
     }
 }
