@@ -136,8 +136,8 @@ namespace TimingScope
                 var endTime = logEntries.Max(x => x.End);
                 var totalTime = endTime - startTime;
                 
-                sb.AppendLine($"Aggregated Duration\t:{TimeSpan.FromMilliseconds(totalDuration):c}");
-                sb.AppendLine($"Total Duration     \t:{totalTime:c}");
+                sb.AppendLine($"Aggregated Duration\t{TimeSpan.FromMilliseconds(totalDuration):c}");
+                sb.AppendLine($"Total Duration     \t{totalTime:c}");
             }
 
             return sb.ToString();
