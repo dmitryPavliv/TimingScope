@@ -101,7 +101,7 @@ namespace TimingScope
                 sb.AppendLine($"{"Property".PadRight(maxLength + 5)}\tValue").AppendLine();
                 foreach (var property in properties)
                 {
-                    sb.AppendLine($"{property.Key.PadRight(maxLength + 5)}\t{property.Key}");
+                    sb.AppendLine($"{property.Key.PadRight(maxLength + 5)}\t{property.Value}");
                 }
 
                 sb.AppendLine();
