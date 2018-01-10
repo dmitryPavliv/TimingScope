@@ -14,7 +14,7 @@ public void TestFromMultipleMethods()
         () => RootMethod(Guid.NewGuid(), "Call_3")
     );
 }
-    
+```    
 Wrap code of your root method in a `TimingScope`. Inside this `using` statement you can log your activities in each method of your calling chain. Library will distinguish different call trees with help of https://github.com/dmitryPavliv/ObjectCallContext  
  
 ```c#
@@ -64,7 +64,7 @@ private void InnerMethod(int i)
 
     TimingScope.Current.Log($"InnerMethod({i})", startTime, DateTimeOffset.Now);
 }
-
+```
 Available at nuget
 
     PM> Install-Package TimingScope
