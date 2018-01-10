@@ -12,11 +12,14 @@ namespace TimingScope
 
         private readonly ConcurrentDictionary<string, string> _properties;
         private readonly ConcurrentBag<TimingLogEntry> _logEntries;
+        private readonly DateTimeOffset _createdAt;
 
         private bool _disposed;
 
         private TimingScope()
         {
+            _createdAt = DateTimeOffset.Now;
+
             _properties = new ConcurrentDictionary<string, string>();
             _logEntries = new ConcurrentBag<TimingLogEntry>();
 
@@ -46,25 +49,27 @@ namespace TimingScope
             return this;
         }
         
+        public DateTimeOffset CreatedAt { get { return _createdAt; } }
+
         public IDictionary<string, string> GetProperties()
         {
             ThrowIfAlreadyDisposed();
             return _properties.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public void Log(string activityName, DateTime start, DateTime end, long? duration = null)
+        public void Log(string activityName, DateTimeOffset startedAt, DateTimeOffset finishedAt, long? duration = null)
         {
             ThrowIfAlreadyDisposed();
             if (!duration.HasValue)
             {
-                duration = (long)(end - start).TotalMilliseconds;
+                duration = (long)(finishedAt - startedAt).TotalMilliseconds;
             }
 
             _logEntries.Add(new TimingLogEntry
             {
                 Name = activityName,
-                Start = start,
-                End = end,
+                StartedAt = startedAt,
+                FinishedAt = finishedAt,
                 Duration = duration.Value
             });
         }
@@ -135,9 +140,7 @@ namespace TimingScope
                 sb.AppendLine();
 
                 var totalDuration = logEntries.Sum(x => x.Duration);
-                var startTime = logEntries.Min(x => x.Start);
-                var endTime = logEntries.Max(x => x.End);
-                var totalTime = endTime - startTime;
+                var totalTime = DateTimeOffset.Now - _createdAt;
                 
                 sb.AppendLine($"Aggregated Duration\t{TimeSpan.FromMilliseconds(totalDuration):c}");
                 sb.AppendLine($"Total Duration     \t{totalTime:c}");

@@ -5,8 +5,8 @@ namespace TimingScope
     public class TimingLogEntry
     {
         public string Name { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public DateTimeOffset StartedAt { get; set; }
+        public DateTimeOffset FinishedAt { get; set; }
         public long Duration { get; set; }
     }
 }
