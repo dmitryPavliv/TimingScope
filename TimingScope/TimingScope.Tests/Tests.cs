@@ -81,7 +81,7 @@ namespace TimingScope.Tests
             using (var scope = TimingScope.Create())
             {
                 var start = DateTime.Now;
-                int n = 10_000;
+                int n = 10000;
 
                 Parallel.For(0, n, (i) =>
                 {
