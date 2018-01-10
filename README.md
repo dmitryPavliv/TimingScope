@@ -61,7 +61,8 @@ private void InnerMethod(int i)
 
     //Some Work
     Thread.Sleep(100);
-
+    
+    ///Log inside inner method!
     TimingScope.Current.Log($"InnerMethod({i})", startTime, DateTimeOffset.Now);
 }
 ```
