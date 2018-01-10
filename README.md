@@ -15,7 +15,7 @@ public void TestFromMultipleMethods()
     );
 }
 ```    
-Wrap code of your root method in a `TimingScope`. Inside this `using` statement you can log your activities in each method of your calling chain. Library will distinguish different call trees with help of https://github.com/dmitryPavliv/ObjectCallContext  
+Wrap code of your root method in a `TimingScope`. Inside this `using` statement you can log your activities in each method of your calling chain. Library will distinguish different call trees with help of [`ObjectCallContext`](https://github.com/dmitryPavliv/ObjectCallContext)
  
 ```c#
 private void RootMethod(Guid id, string anotherParam)
