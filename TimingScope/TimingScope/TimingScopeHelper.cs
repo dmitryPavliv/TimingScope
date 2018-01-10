@@ -8,7 +8,7 @@ namespace TimingScope
     {
         public static async Task WithTimingAsync(string activityName, Func<Task> taskFunc)
         {
-            var start = DateTime.Now;
+            var start = DateTimeOffset.Now;
             var sw = Stopwatch.StartNew();
 
             try
@@ -18,13 +18,13 @@ namespace TimingScope
             finally
             {
                 sw.Stop();
-                TimingScope.Current?.Log(activityName, start, DateTime.Now, sw.ElapsedMilliseconds);
+                TimingScope.Current?.Log(activityName, start, DateTimeOffset.Now, sw.ElapsedMilliseconds);
             }
         }
 
         public static async Task<T> WithTimingAsync<T>(string activityName, Func<Task<T>> taskFunc)
         {
-            var start = DateTime.Now;
+            var start = DateTimeOffset.Now;
             var sw = Stopwatch.StartNew();
 
             try
@@ -34,13 +34,13 @@ namespace TimingScope
             finally
             {
                 sw.Stop();
-                TimingScope.Current?.Log(activityName, start, DateTime.Now, sw.ElapsedMilliseconds);
+                TimingScope.Current?.Log(activityName, start, DateTimeOffset.Now, sw.ElapsedMilliseconds);
             }
         }
 
         public static void WithTiming(string activityName, Action action)
         {
-            var start = DateTime.Now;
+            var start = DateTimeOffset.Now;
             var sw = Stopwatch.StartNew();
 
             try
@@ -50,13 +50,13 @@ namespace TimingScope
             finally
             {
                 sw.Stop();
-                TimingScope.Current?.Log(activityName, start, DateTime.Now, sw.ElapsedMilliseconds);
+                TimingScope.Current?.Log(activityName, start, DateTimeOffset.Now, sw.ElapsedMilliseconds);
             }
         }
 
         public static T WithTiming<T>(string activityName, Func<T> func)
         {
-            var start = DateTime.Now;
+            var start = DateTimeOffset.Now;
             var sw = Stopwatch.StartNew();
 
             try
@@ -66,7 +66,7 @@ namespace TimingScope
             finally
             {
                 sw.Stop();
-                TimingScope.Current?.Log(activityName, start, DateTime.Now, sw.ElapsedMilliseconds);
+                TimingScope.Current?.Log(activityName, start, DateTimeOffset.Now, sw.ElapsedMilliseconds);
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using static TimingScope.TimingScopeHelper;
 
 namespace TimingScope.Tests
 {
@@ -28,13 +29,8 @@ namespace TimingScope.Tests
             {
                 scope.SetProperty("Prop1", "Val1")
                     .SetProperty("Prop2", "Val2");
-
-                var start = DateTime.Now;
-
-                //some work
-                await Task.Delay(100);
-
-                TimingScope.Current.Log("First", start, DateTime.Now);
+                
+                await WithTimingAsync("First", () => Task.Delay(100));
 
                 await Task.WhenAll(Task.Run(OtherMethodAsync), Task.Run(OneMoreMethodAsync));
 
@@ -49,8 +45,7 @@ namespace TimingScope.Tests
                 Assert.AreEqual(4, logEntries.Count);
                 Assert.AreEqual(1, logEntries.Count(x => x.Name == "First"));
                 Assert.AreEqual(1, logEntries.Count(x => x.Name == "Second"));
-                Assert.AreEqual(1, logEntries.Count(x => x.Name == "Third" && x.Duration == 1));
-                Assert.AreEqual(1, logEntries.Count(x => x.Name == "Third" && x.Duration == 2));
+                Assert.AreEqual(2, logEntries.Count(x => x.Name == "Third"));
 
                 var logMessage = scope.ToString();
                 Console.WriteLine(logMessage);
@@ -59,33 +54,28 @@ namespace TimingScope.Tests
 
         private async Task OtherMethodAsync()
         {
-            var start = DateTime.Now;
-            await Task.Delay(300);
-            TimingScope.Current.Log("Second", start, DateTime.Now);
+            await WithTimingAsync("Second", () => Task.Delay(300));
             TimingScope.Current.SetProperty("Prop3", "Val3");
         }
 
         private async Task OneMoreMethodAsync()
         {
-            var start = DateTime.Now;
-            await Task.Delay(100);
-            TimingScope.Current.Log("Third", start, DateTime.Now, 1);
-
-            start = DateTime.Now;
-            await Task.Delay(300);
-            TimingScope.Current.Log("Third", start, DateTime.Now, 2);
+            await WithTimingAsync("Third", () => Task.Delay(100));
+            await WithTimingAsync("Third", () => Task.Delay(300));
         }
 
         private void DoSomeWork(string key)
         {
             using (var scope = TimingScope.Create())
             {
-                var start = DateTime.Now;
                 int n = 10000;
 
                 Parallel.For(0, n, (i) =>
                 {
-                    TimingScope.Current.Log(key + "_" + i, start, DateTime.Now);
+                    WithTiming(key + "_" + i, () =>
+                    {
+                        //some work
+                    });
                 });
 
                 var logEntries = scope.GetLogEntries().ToDictionary(x => x.Name);
