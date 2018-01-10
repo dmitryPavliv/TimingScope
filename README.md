@@ -3,7 +3,7 @@
 Library to help measure different time activities across multiple thread. 
 
 
-
+```c#
     [TestMethod]
     public void TestFromMultipleMethods()
     {
@@ -17,6 +17,7 @@ Library to help measure different time activities across multiple thread.
     
 Wrap code of your root method in a `TimingScope`. Inside this `using` statement you can log your activities in each method of your calling chain. Library will distinguish different call trees with help of https://github.com/dmitryPavliv/ObjectCallContext  
  
+```c#
     private void RootMethod(Guid id, string anotherParam)
     {
         //Arrange
