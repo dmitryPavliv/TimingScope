@@ -28,11 +28,14 @@ namespace TimingScope
             return new TimingScope();
         }
 
-        public static TimingScope GetCurrent()
+        public static TimingScope Current
         {
-            TimingScope current;
-            ObjectCallContext.ObjectCallContext.TryGetData(Key, out current);
-            return current;
+            get
+            {
+                TimingScope current;
+                ObjectCallContext.ObjectCallContext.TryGetData(Key, out current);
+                return current;
+            }
         }
 
         public TimingScope SetProperty(string name, string value)
@@ -42,14 +45,14 @@ namespace TimingScope
 
             return this;
         }
-
+        
         public IDictionary<string, string> GetProperties()
         {
             ThrowIfAlreadyDisposed();
             return _properties.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public void Log(string name, DateTime start, DateTime end, long? duration = null)
+        public void Log(string activityName, DateTime start, DateTime end, long? duration = null)
         {
             ThrowIfAlreadyDisposed();
             if (!duration.HasValue)
@@ -59,7 +62,7 @@ namespace TimingScope
 
             _logEntries.Add(new TimingLogEntry
             {
-                Name = name,
+                Name = activityName,
                 Start = start,
                 End = end,
                 Duration = duration.Value

@@ -34,7 +34,7 @@ namespace TimingScope.Tests
                 //some work
                 await Task.Delay(100);
 
-                TimingScope.GetCurrent().Log("First", start, DateTime.Now);
+                TimingScope.Current.Log("First", start, DateTime.Now);
 
                 await Task.WhenAll(Task.Run(OtherMethodAsync), Task.Run(OneMoreMethodAsync));
 
@@ -61,19 +61,19 @@ namespace TimingScope.Tests
         {
             var start = DateTime.Now;
             await Task.Delay(300);
-            TimingScope.GetCurrent().Log("Second", start, DateTime.Now);
-            TimingScope.GetCurrent().SetProperty("Prop3", "Val3");
+            TimingScope.Current.Log("Second", start, DateTime.Now);
+            TimingScope.Current.SetProperty("Prop3", "Val3");
         }
 
         private async Task OneMoreMethodAsync()
         {
             var start = DateTime.Now;
             await Task.Delay(100);
-            TimingScope.GetCurrent().Log("Third", start, DateTime.Now, 1);
+            TimingScope.Current.Log("Third", start, DateTime.Now, 1);
 
             start = DateTime.Now;
             await Task.Delay(300);
-            TimingScope.GetCurrent().Log("Third", start, DateTime.Now, 2);
+            TimingScope.Current.Log("Third", start, DateTime.Now, 2);
         }
 
         private void DoSomeWork(string key)
@@ -85,7 +85,7 @@ namespace TimingScope.Tests
 
                 Parallel.For(0, n, (i) =>
                 {
-                    TimingScope.GetCurrent().Log(key + "_" + i, start, DateTime.Now);
+                    TimingScope.Current.Log(key + "_" + i, start, DateTime.Now);
                 });
 
                 var logEntries = scope.GetLogEntries().ToDictionary(x => x.Name);
