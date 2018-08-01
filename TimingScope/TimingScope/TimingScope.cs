@@ -123,18 +123,22 @@ namespace TimingScope
                 {
                     Name = k,
                     TotalDuration = g.Sum(x => x.Duration),
+                    MinDuration = g.Min(x => x.Duration),
+                    MaxDuration = g.Max(x => x.Duration),
                     Count = g.Count()
                 }).OrderByDescending(x=>x.TotalDuration);
 
                 var maxLength = groupedLogEntries.Max(x => x.Name.Length);
 
-                sb.AppendLine($"{"Activity".PadRight(maxLength + 5)}\tAggregated Duration\tCount").AppendLine();
+                sb.AppendLine($"{"Activity".PadRight(maxLength + 5)}\tCount\tAggregated\t\t\tMin\t\t\t\t\tMax").AppendLine();
 
                 foreach (var groupedLogEntry in groupedLogEntries)
                 {
                     sb.AppendLine($"{groupedLogEntry.Name.PadRight(maxLength + 5)}\t" +
+                                  $"{groupedLogEntry.Count}\t\t" +
                                   $"{TimeSpan.FromMilliseconds(groupedLogEntry.TotalDuration):c}\t" +
-                                  $"{groupedLogEntry.Count}");
+                                  $"{TimeSpan.FromMilliseconds(groupedLogEntry.MinDuration):c}\t" +
+                                  $"{TimeSpan.FromMilliseconds(groupedLogEntry.MaxDuration):c}\t" );
                 }
 
                 sb.AppendLine();
